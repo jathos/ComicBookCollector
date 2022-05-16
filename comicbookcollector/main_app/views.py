@@ -23,4 +23,4 @@ def about(request):
     return render(request, 'about.html')
 
 def comics_index(request):
-    return render(request, 'cats/index.html', { 'comics': comic })
+    return render(request, 'comics/index.html', { 'comics': comic })
