@@ -11,6 +11,10 @@
         <p>Publisher: {{ comic.publisher }}</p>
         <p>Originally Released: {{ comic.year }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'comics_update' comic.id %}">Edit</a>
+        <a href="{% url 'comics_delete' comic.id %}">Delete</a>
+    </div>
 </div>
 
 {% endblock %}

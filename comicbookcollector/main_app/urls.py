@@ -5,5 +5,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('comics/', views.comics_index, name='index'),
-    path('comics/<int:comic_id>', views.comic_details, name='details')
+    path('comics/<int:comic_id>', views.comic_details, name='details'),
+    path('comics/create/', views.ComicCreate.as_view(), name='comics_create'),
+    path('comics/<int:pk>/update/', views.ComicUpdate.as_view(), name='comics_update'),
+    path('comics/<int:pk>/delete/', views.ComicDelete.as_view(), name='comics_delete'),
 ]
