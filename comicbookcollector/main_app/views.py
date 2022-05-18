@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from .models import Comic
+from .forms import ReadingForm
 
 # Create your views here.
 def home(request):
@@ -17,7 +18,16 @@ def comics_index(request):
 
 def comic_details(request, comic_id):
   comic = Comic.objects.get(id=comic_id)
-  return render(request, 'comics/detail.html', { 'comic' : comic })  
+  reading_form = ReadingForm()
+  return render(request, 'comics/detail.html', { 'comic' : comic, 'reading_form' : reading_form })  
+
+def add_reading(request, comic_id):
+    form = ReadingForm(request.POST)
+    if form.is_valid():
+        new_reading = form.save(commit=False)
+        new_reading.comic_id = comic_id
+        new_reading.save()
+    return redirect ('details', comic_id = comic_id)
 
 class ComicCreate(CreateView):
     model = Comic

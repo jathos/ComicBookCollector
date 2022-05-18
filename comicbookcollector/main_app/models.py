@@ -10,3 +10,16 @@ class Comic(models.Model):
 
     def __str__(self):
         return self.title
+
+class Reading(models.Model):
+    date = models.DateField('Date Read')
+    start_page = models.IntegerField()
+    end_page = models.IntegerField()
+
+    comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.start_page}-{self.end_page}/{self.date}"
+
+    class Meta:
+        ordering = ['-date']
