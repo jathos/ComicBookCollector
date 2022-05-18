@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
-from .models import Comic
+from .models import Comic, Artist
 from .forms import ReadingForm
 
 # Create your views here.
@@ -18,8 +18,9 @@ def comics_index(request):
 
 def comic_details(request, comic_id):
   comic = Comic.objects.get(id=comic_id)
+  artists_comic_doesnt_have = Artist.objects.exclude(id__in = comic.artists.all().values_list('id'))
   reading_form = ReadingForm()
-  return render(request, 'comics/detail.html', { 'comic' : comic, 'reading_form' : reading_form })  
+  return render(request, 'comics/detail.html', { 'comic' : comic, 'reading_form' : reading_form, 'artists': artists_comic_doesnt_have })  
 
 def add_reading(request, comic_id):
     form = ReadingForm(request.POST)
@@ -29,9 +30,13 @@ def add_reading(request, comic_id):
         new_reading.save()
     return redirect ('details', comic_id = comic_id)
 
+def assoc_artist(request, comic_id, artist_id):
+    Comic.objects.get(id=comic_id).artists.add(artist_id)
+    return redirect('details', comic_id=comic_id)
+
 class ComicCreate(CreateView):
     model = Comic
-    fields = '__all__'
+    fields = ['series', 'title', 'publisher', 'issue_num', 'year']
 
     def get_success_url(self, **kwargs):
         return reverse('details', args=(self.object.id,))

@@ -45,15 +45,57 @@
         </table>
     </div>
 </div>
+<hr>
+<div class="row">
+    <div class="col s6">
+        <h3>{{ comic.title }}'s Artists</h3>
+        {% if comic.artists.count %}
+        {% for artist in comic.artists.all %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    {{ artist.name }}
+                </span>
+                <p>{{ artist.profession }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5>No artists :(</h5>
+        {% endif %}
+    </div>
+    <div class="col s6">
+        <h3>Available Artists</h3>
+        {% if artists.count %}
+        {% for artist in artists.all %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    {{ artist.name }}
+                </span>
+                <p>{{ artist.profession }} </p>
+            </div>
+            <div class="card-action">
+                <form action="{% url 'assoc_artist' comic.id artist.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5>{{comic.title}} Already Has All artists Available</h5>
+        {% endif %}
+    </div>
 
-<script>
-    const dateEl = document.getElementById('id_date');
-    M.Datepicker.init(dateEl, {
-        format: 'yyyy-mm-dd',
-        defaultDate: new Date(),
-        setDefaultDate: true,
-        autoClose: true
-    });
-</script>
+    <script>
+        const dateEl = document.getElementById('id_date');
+        M.Datepicker.init(dateEl, {
+            format: 'yyyy-mm-dd',
+            defaultDate: new Date(),
+            setDefaultDate: true,
+            autoClose: true
+        });
+    </script>
 
-{% endblock %}
+    {% endblock %}
