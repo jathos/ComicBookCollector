@@ -22,6 +22,14 @@ class Comic(models.Model):
     def __str__(self):
         return self.title
 
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for {self.comic_id}"
+
+
 class Reading(models.Model):
     date = models.DateField('Date Read')
     start_page = models.IntegerField()
