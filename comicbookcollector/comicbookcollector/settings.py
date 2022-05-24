@@ -120,6 +120,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_REDIRECT_URL = '/comics/'
+
+LOGOUT_REDIRECT_URL = '/'
+
 import environ
 environ.Env()
 environ.Env.read_env()
