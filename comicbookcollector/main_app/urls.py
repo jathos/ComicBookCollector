@@ -12,4 +12,5 @@ urlpatterns = [
     path('comics/<int:comic_id>/add_reading/', views.add_reading, name='add_reading'),
     path('comics/<int:comic_id>/assoc_artist/<int:artist_id>/', views.assoc_artist, name='assoc_artist'),
     path('comics/<int:comic_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
